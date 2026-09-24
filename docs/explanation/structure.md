@@ -15,7 +15,9 @@ application manifest. Its Python scripts are dependency-free repository tooling.
 Both use standalone Quarto so the documentation setup remains independent of the
 application's language. Rendered output is disposable and ignored by Git.
 
-Agent procedures have one canonical copy, with thin adapters for each client.
+Agent policies and procedures have shared sources and complete, checked-in client
+copies. Each client discovers usable instructions and skills in its native folders;
+`just agents-sync` refreshes the copies and validation detects drift.
 Commit hooks validate a copy of the Git index so unstaged fixes cannot make a broken
 commit look healthy. Hooks are workflow safeguards, not a security boundary against
 arbitrary shell programs. CI independently runs the same project checks.

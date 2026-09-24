@@ -9,7 +9,7 @@ default:
 tooling-test:
     uv run --locked python -m unittest discover -s tooling_tests -v
 
-# Check links, configuration, and the shared agent adapters.
+# Check links, configuration, and complete agent instructions and skills.
 docs-check:
     uv run --locked python scripts/check_repo.py
 
@@ -43,3 +43,11 @@ build:
     uv build
 
 check: lint fmt-check test tooling-test docs-check docs-build
+
+# Update complete client files after editing AGENTS.md or a shared skill.
+agents-sync:
+    uv run --locked python scripts/sync_agent_instructions.py
+
+# Detect missing or stale client instruction and skill files.
+agents-check:
+    uv run --locked python scripts/sync_agent_instructions.py --check

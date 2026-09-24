@@ -5,8 +5,8 @@ files, not repository settings, secrets, variables, or release history.
 
 Change the README heading, description, repository links, Quarto title, and example
 commands. Choose your project's license; preserve existing MIT notices when reusing
-this starter's code. Update copyright for your additions. Review AGENTS.md and
-the default branch setting in `.github/repository-policy.json`.
+this starter's code. Update copyright for your additions. Follow [customizing agent instructions](customize-agent-instructions.md) to update
+the project policy and skills. Review the default branch setting in `.github/repository-policy.json`.
 
 
 Rename the distribution in `pyproject.toml`, its console script, `src/python_template/`,

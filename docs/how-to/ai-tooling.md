@@ -4,7 +4,11 @@ Install Python 3.13+, Git, just, and Quarto. On Windows, make `python` available
 PATH; on macOS/Linux, provide `python3` (and `python` for Claude's command hook).
 Claude on Windows uses Git Bash. The Python starter also needs uv and `uv sync`.
 
-Open the repository in your client and read AGENTS.md. Review the repository-local
+Open the repository root in your client. Codex loads AGENTS.md; Claude loads the
+root CLAUDE.md. Both contain complete defaults. Skills are checked in at
+`.agents/skills/` for Codex and `.claude/skills/` for Claude. No generation step is
+needed to use them. See [customizing agent instructions](customize-agent-instructions.md)
+for invocation examples and how to update the defaults. Review the repository-local
 hook configuration and approve trust through the client's normal controls. Codex
 project hooks require a trusted project and trusted hook definitions. Restart a client
 if newly added custom agents are not discovered. No user-global configuration is changed.

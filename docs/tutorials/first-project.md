@@ -94,3 +94,11 @@ steps within that authorization.
 Your repository is ready for project work. Add documentation to the appropriate
 Diataxis category as behavior grows. [Publishing the website](../how-to/documentation.md)
 is optional and separate from publishing the source repository.
+
+## Adapt the agent defaults
+
+The checked-in AGENTS.md, CLAUDE.md, and workflow skills are ready to use.
+Follow [customizing agent instructions](../how-to/customize-agent-instructions.md)
+to record your project's layout and commands, then run `just agents-sync` and
+`just agents-check`. Use the guide's docs-maintainer example to try a skill before
+asking an agent to commit or open a PR.

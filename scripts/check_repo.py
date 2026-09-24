@@ -9,6 +9,8 @@ import tomllib
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
+from sync_agent_instructions import check as check_agent_instructions
+
 
 def check(root: Path) -> list[str]:
     errors = []
@@ -50,10 +52,7 @@ def check(root: Path) -> list[str]:
                 errors.append(f"{canonical}: missing or mismatched skill frontmatter.")
             if not re.search(r"^description: .+", content, re.MULTILINE):
                 errors.append(f"{canonical}: missing skill description.")
-            claude = (root / f".claude/agents/{role}.md").read_text(encoding="utf-8")
             codex = tomllib.loads((root / f".codex/agents/{role}.toml").read_text(encoding="utf-8"))
-            if canonical not in claude or canonical not in codex.get("developer_instructions", ""):
-                errors.append(f"{role}: both adapters must point at the canonical procedure.")
             if codex.get("name") != role.replace("-", "_") or not codex.get("description"):
                 errors.append(f"{role}: invalid Codex identity.")
         except (OSError, ValueError) as error:
@@ -66,6 +65,7 @@ def check(root: Path) -> list[str]:
                 errors.append(f"{path}: missing shared commit gate.")
         except (OSError, ValueError, KeyError, IndexError, TypeError) as error:
             errors.append(f"{path}: {error}")
+    errors.extend(check_agent_instructions(root))
     return errors
 
 

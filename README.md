@@ -47,8 +47,10 @@ Start with [your first change](docs/tutorials/first-project.md).
 
 ## AI workflows
 
-Shared instructions live in [AGENTS.md](AGENTS.md). Both Claude and Codex get committer,
-PR manager, and docs maintainer agents, backed by canonical skills. Review and trust their
+Ready-to-use project instructions live in [AGENTS.md](AGENTS.md) for Codex and
+[CLAUDE.md](CLAUDE.md) for Claude. Both clients have complete committer, PR manager,
+and docs maintainer agents and discoverable skills.
+[Customize the agent defaults](docs/how-to/customize-agent-instructions.md) as your project grows. Review and trust their
 runtime hooks using [the setup guide](docs/how-to/ai-tooling.md). Agents require explicit
 commit authorization and preserve authorization already given for the task.
 

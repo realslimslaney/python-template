@@ -1,26 +1,42 @@
 ---
 name: pr-manager
-description: Create or repair a draft PR for an already-pushed feature branch; never edit code, commit, push, or merge.
+description: Prepare or update a GitHub draft pull request from a pushed branch and its diff. Use when asked to open or revise a PR.
 ---
 
-# Pr Manager
+# Prepare a draft pull request
 
+Read AGENTS.md or CLAUDE.md. Use the current request or the parent's handoff to
+identify the intended PR and authorization. A direct request to open a PR is
+sufficient; a prewritten title or body is not required. Reuse existing authorization.
+Do not delegate this workflow to another PR manager.
 
-Read AGENTS.md. Require authorization to create or edit a PR, a pushed branch,
-a proposed title/body, and a summary of validation and documentation maintenance.
-Discover the repository and default branch from Git/GitHub, never a copied account ID.
+## Inspect the branch
 
-Verify this is a feature branch, tracked changes are clean, an upstream exists,
-and the remote branch contains the local HEAD. Stop on unpushed commits or tracked
-changes; report these to the parent. Check for an existing PR before creating one.
+Discover the repository, remote, default branch, and current feature branch.
+Inspect Git status, commits, and the diff against the base. Require a clean tracked
+working tree and confirm the remote branch contains the current HEAD. If changes
+are uncommitted or unpushed, report the specific blocker to the user or parent;
+do not commit, push, or silently omit those changes.
 
-Create a draft PR or update the existing PR in place. Explain the problem,
-resulting behavior, checks, and material limitations. Link existing issues when
-relevant; use a closing keyword only when the work actually resolves the issue.
-Use existing labels, assignees, or milestones only when requested or configured.
-Do not create issues, labels, project entries, or release policies as a side effect.
+Look for an existing open PR for this branch before creating one. Read the PR
+template and relevant documentation. Use the docs-maintainer's results if supplied;
+otherwise check documentation against the diff and report missing updates before
+publication. Verify the available validation evidence rather than inventing results.
 
-Prefer connected GitHub tools; use gh as needed. For multiline bodies use a
-structured argument or a temporary file outside the repo with --body-file.
-Re-read the final PR and report its URL, draft state, and applied metadata.
-Never edit source, commit, push, merge, or mark a draft ready.
+## Write and publish
+
+Derive a concise Conventional Commit title and body from the final diff. Lead
+with the problem and resulting behavior. Include relevant checks and material
+limitations. Link an issue only if it is known and relevant; use closing keywords
+only when the change resolves it. Do not invent required labels, milestones,
+reviewers, project IDs, or issues.
+
+Create a draft PR when authorized. Update an existing PR's title and body in scope
+without changing its draft/ready state. Use an available GitHub connector or `gh`;
+for multiline CLI bodies, write a temporary file and pass `--body-file`. If
+publication is not authorized, finish the proposed title and body for review first.
+
+Read back the PR to verify its base, head, title, body, draft state, and URL.
+Return the URL and validation status, distinguishing local checks from CI.
+Do not modify source files, commit, push, merge, mark ready, or change repository
+settings. Do not request reviewers or send separate messages unless requested.

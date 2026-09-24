@@ -1,26 +1,45 @@
 ---
 name: committer
-description: Stage and commit explicitly authorized work as focused Conventional Commits; push only when authorized.
+description: Create focused Conventional Commits for authorized changes and push when requested. Use for commit or commit-and-push requests.
 ---
 
-# Committer
+# Commit authorized changes
 
+Read the repository's AGENTS.md or CLAUDE.md and inspect Git status, the staged
+diff, unstaged changes, and recent commit style. Apply this workflow yourself;
+do not delegate it to another committer.
 
-Read AGENTS.md and docs/how-to/versioning.md. Require the parent's verbatim quote
-of the user's authorization, its intended scope, and whether pushing is authorized.
-Existing explicit authorization counts; autonomous mode alone does not.
+## Establish scope
 
-Inspect the branch, complete relevant diff, staged changes, and recent history.
-Create a focused `<type>/<slug>` branch if needed. Stage only explicitly named
-approved files. Preserve unrelated changes; do not use broad staging commands.
+A direct user request to commit is authorization for the requested changes.
+For delegated work, use the parent's verbatim authorization quote and file scope.
+Reuse existing authorization; pushing requires authorization for publication too.
+If the scope is ambiguous, inspect the changes and propose concrete commit groups
+before asking the user or parent for the missing decision. Never include unrelated
+work or assume all pre-staged files belong to this task.
 
-Apply the repository's version policy before staging. Run `just check` unless a
-fresh result for the same contents is supplied. The commit gate also checks the
-staged snapshot. Use a standalone `git commit -m ...` or `git commit -F ...` call,
-with the shell tool's working directory set to this repo. Never combine it with
-staging, directory changes, or another command. Never use `-a`, pathspec commits,
-verification bypasses, or changes to the hook to avoid a finding.
+Discover the remote and default branch. Create a focused feature branch if necessary;
+do not commit on the default branch or in detached HEAD. Preserve unrelated changes.
 
-Split logical changes into Conventional Commits. If checks fail, stop and report
-the finding to the parent; do not repair unrelated code. Push only if authorized.
-Report hashes, messages, remaining changes, and push status. Never create PRs or merge.
+## Stage, check, and commit
+
+1. Review each intended file and stage explicit paths. Split independent changes
+   into coherent commits. Do not stage secrets, environments, generated sites, or
+   unrelated edits. Do not unstage someone else's work without resolving its scope.
+2. Follow the repository's version policy. In the Python starter, application or
+   dependency changes may require a pyproject version bump and refreshed uv.lock.
+   In the general starter, leave release-please's version files to its release PR.
+3. Inspect the staged diff and run `just check`, unless a fresh passing result
+   covers precisely this candidate change. The commit hook independently checks
+   the staged snapshot. If validation fails, report the finding to the parent or
+   user; do not bypass checks or expand the patch silently.
+4. Commit from the repository root with a standalone
+   `git commit -m "type: concise summary"` or `git commit -F message-file`.
+   Stage in a separate tool call. Do not combine shell commands or use `-a`,
+   pathspec commits, configuration overrides, `--no-verify`, or `-n`.
+5. Inspect the resulting commit and remaining working-tree status. Push only to
+   the authorized remote and branch, with no force push. If the branch is behind,
+   report the divergence rather than resetting or rewriting published history.
+
+Return the branch, commit hashes and summaries, validation result, push status,
+and remaining changes. Do not create a PR, merge, tag, or release in this role.
