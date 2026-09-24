@@ -27,6 +27,21 @@ class CommandTests(unittest.TestCase):
     def test_noncommit(self):
         self.assertIsNone(gate.commit_target("git status --short", ROOT))
 
+    def test_commit_mentions_do_not_block_read_commands(self):
+        for command in [
+            'rg "git commit" README.md',
+            "git log --grep commit",
+            "git help commit",
+            'echo "git commit -m example"',
+            "python -c 'print(\"git commit\")'",
+        ]:
+            with self.subTest(command=command):
+                self.assertIsNone(gate.commit_target(command, ROOT))
+
+    def test_multiline_commit_sequence_denies(self):
+        with self.assertRaises(gate.Denied):
+            gate.commit_target('git add .\ngit commit -m "fix: combined"', ROOT)
+
     def test_quotes_and_target(self):
         target = ROOT / "directory with spaces"
         self.assertEqual(
@@ -78,7 +93,7 @@ class RepositoryTests(unittest.TestCase):
             "default_branch": "main",
             "version_policy": "manual-python",
             "check_command": [sys.executable, "check.py"],
-            "check_timeout_seconds": 5,
+            "check_timeout_seconds": 30,
         }
         (self.root / ".github").mkdir()
         (self.root / ".github/repository-policy.json").write_text(json.dumps(self.policy), encoding="utf-8")

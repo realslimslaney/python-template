@@ -27,17 +27,40 @@ def run_git(root: Path, *args: str, check: bool = True) -> subprocess.CompletedP
     return result
 
 
+def is_commit_segment(raw: list[str]) -> bool:
+    tokens = [token[1:-1] if token[:1] in ("'", '"') and token[-1:] == token[:1] else token for token in raw]
+    if tokens[:1] in (["command"], ["sudo"]):
+        tokens = tokens[1:]
+    if not tokens or tokens[0].lower() not in ("git", "git.exe"):
+        return False
+    position = 1
+    value_flags = {"-C", "-c", "--git-dir", "--work-tree", "--namespace", "--exec-path", "--config-env"}
+    while position < len(tokens) and tokens[position].startswith("-"):
+        position += 2 if tokens[position] in value_flags else 1
+    return position < len(tokens) and tokens[position] == "commit"
+
+
 def commit_target(command: str, cwd: Path) -> Path | None:
     """Accept a small, unambiguous subset of standalone git commit commands."""
     if not re.search(r"\bgit(?:\.exe)?\b[\s\S]*?\bcommit\b", command, re.IGNORECASE):
         return None
     lexer = shlex.shlex(command, posix=False, punctuation_chars=";&|<>\n()")
+    lexer.whitespace = " \t\r"
     lexer.whitespace_split = True
     lexer.commenters = ""
     try:
         raw = list(lexer)
     except ValueError as error:
         raise Denied(f"Cannot parse commit command: {error}") from error
+    # Look at command verbs, not prose such as rg "git commit" or git log --grep commit.
+    segments = [[]]
+    for token in raw:
+        if token and all(char in ";&|<>\n()" for char in token):
+            segments.append([])
+        else:
+            segments[-1].append(token)
+    if not any(is_commit_segment(segment) for segment in segments):
+        return None
     if any(token and all(char in ";&|<>\n()" for char in token) for token in raw):
         raise Denied("Run git commit alone; do staging and directory changes in separate calls.")
     if any("$" in token or "`" in token for token in raw):
