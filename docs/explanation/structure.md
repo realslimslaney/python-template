@@ -9,7 +9,7 @@ example, how-to pages solve a specific task, reference records exact behavior, a
 explanation discusses decisions. The website sidebar discovers each category's pages.
 
 The Python starter uses a src layout to exercise the installed package instead of
-accidentally importing directly from the checkout. The bare-bones starter has no
+accidentally importing directly from the checkout. The general starter has no
 application manifest. Its Python scripts are dependency-free repository tooling.
 
 Both use standalone Quarto so the documentation setup remains independent of the

@@ -14,5 +14,5 @@ required Diataxis directories, agent adapters, JSON/TOML parsing, and hook confi
 External URLs are not fetched during checks. Tests use temporary repositories and synthetic data.
 
 The Python template keeps metadata, build configuration, pytest, and Ruff settings in
-`pyproject.toml`; `uv.lock` records dependency resolutions. The bare-bones template uses
+`pyproject.toml`; `uv.lock` records dependency resolutions. The general template uses
 `version.txt` and release-please's configuration and manifest for releases.
