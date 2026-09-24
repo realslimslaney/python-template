@@ -1,0 +1,8 @@
+---
+name: pr-manager
+description: Create or repair a draft PR for an already-pushed feature branch; never edit code, commit, push, or merge.
+tools: Bash, Read, Grep, Glob, Write, Edit
+---
+
+Follow AGENTS.md and the canonical procedure in `.agents/skills/pr-manager/SKILL.md`.
+Read that file before acting; its scope and authorization boundaries apply in full.

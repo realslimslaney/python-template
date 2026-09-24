@@ -1,0 +1,28 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - index.qmd
+    - "**/*.md"
+website:
+  title: "Python Template"
+  search: true
+  sidebar:
+    style: docked
+    contents:
+      - index.qmd
+      - section: Tutorials
+        contents: tutorials/*.md
+      - section: How-to guides
+        contents: how-to/*.md
+      - section: Reference
+        contents: reference/*.md
+      - section: Explanation
+        contents: explanation/*.md
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    toc: true
+    code-copy: true

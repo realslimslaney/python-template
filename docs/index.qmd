@@ -1,0 +1,12 @@
+---
+title: "Python Template"
+---
+
+Start with the [first-project tutorial](tutorials/first-project.md).
+
+- **Learn:** [Make your first change](tutorials/first-project.md).
+- **Do:** [Customize the template](how-to/customize.md),
+  [use AI tooling](how-to/ai-tooling.md), [manage versions](how-to/versioning.md),
+  or [publish documentation](how-to/documentation.md).
+- **Look up:** [Commands](reference/commands.md) and [configuration](reference/configuration.md).
+- **Understand:** [Project structure and design choices](explanation/structure.md).

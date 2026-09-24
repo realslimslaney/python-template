@@ -1,0 +1,9 @@
+{
+  "default_branch": "main",
+  "version_policy": "manual-python",
+  "check_command": [
+    "just",
+    "check"
+  ],
+  "check_timeout_seconds": 240
+}
